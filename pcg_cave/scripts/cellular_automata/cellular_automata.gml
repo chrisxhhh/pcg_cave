@@ -1,10 +1,12 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constructor {
+	
 	width		= _width;
 	height		= _height;
 	special_x	= irandom_range(43, 83);
 	special_y	= irandom_range(43, 83);
+	prev		= _prev;
 	
 	//create initial grid in a nested array with initial value 0
 	map = array_create(width, 0);
@@ -18,40 +20,32 @@ function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constr
 	}
 	
 	//First room generation
-	if (_prev = noone) {
+	if (_prev == noone) {
 		for (var col = width - 5; col >= 5; --col) {
 			for (var row = height - 5; row >= 5; --row) {
-				//set each cell 60 or 10 depend on _spawn_chance
-				//this is first generation of the map
-				map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
+				if row < 80
+					map[col][row] = 70;
+				else
+					map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
 				initial[col][row] = map[col][row];
-				//show_debug_message(map[col][row])
-			}
-		}
-	
-	
-		for (var col = special_x - 5; col < special_x + 5; ++col) {
-			for (var row = special_y - 5; row < special_y + 5; ++row) {
-				map[col][row] = 70;
 			}
 		}
 	}
+	
 	//Later room generation
 	else {
 		
-		for (var col = 37; col >= 5; --col) {
-			map[col] = _prev.initial[width - col];
-			initial[col] = map[col];
+		for (var col = width - 5; col >= 5; --col) {
+			for (var row = 37; row >= 5; --row) {
+				map[col][row] = prev.initial[col][width - row];
+				initial[col][row] = map[col][row];
+			}
 		}
 		
-		
-		for (var col = width - 5; col >= 38; --col) {
-			for (var row = height - 5; row >= 5; --row) {
-				//set each cell 60 or 10 depend on _spawn_chance
-				//this is first generation of the map
+		for (var col = width - 5; col >= 5; --col) {
+			for (var row = height - 5; row >= 38; --row) {
 				map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
 				initial[col][row] = map[col][row];
-				//show_debug_message(map[col][row])
 			}
 		}
 	
@@ -63,11 +57,6 @@ function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constr
 		}
 		
 	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -125,9 +114,17 @@ function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constr
 				}
 			}
 			
-			for (var col = special_x - 10; col < special_x + 10; ++col) {
-				for (var row = special_y - 10; row < special_y + 10; ++row) {
-					if _new_map[col][row] >= 110 _new_map[col][row] = 110
+			if (prev == noone) {
+				for (var col = width - 5; col >= 5; --col) {
+					for (var row = width - 45; row >= 5; --row) {
+						if _new_map[col][row] >= 110 _new_map[col][row] = 110
+					}
+				}
+			} else {
+				for (var col = special_x - 10; col < special_x + 10; ++col) {
+					for (var row = special_y - 10; row < special_y + 10; ++row) {
+						if _new_map[col][row] >= 110 _new_map[col][row] = 110
+					}
 				}
 			}
 			

@@ -6,7 +6,7 @@ if (keyboard_check(vk_space) && ite_rdy) {
 	alarm[0] = 0.05 * room_speed;
 	++ite;
 	my_map.iterate();
-	spawn_square();
+	spawn_square(my_map);
 }
 
 //if (keyboard_check(vk_shift)) {
