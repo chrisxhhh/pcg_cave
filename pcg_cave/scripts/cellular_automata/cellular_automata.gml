@@ -1,9 +1,10 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function cellular_automata(_width, _height, _spawn_chance) constructor{
-	width	= _width;
-	height	= _height;
-	
+function cellular_automata(_width, _height, _spawn_chance) constructor {
+	width		= _width;
+	height		= _height;
+	special_x	= irandom_range(43, 83);
+	special_y	= irandom_range(43, 83);
 	
 	//create initial grid in a nested array with initial value 0
 	map = array_create(width, 0);
@@ -16,8 +17,15 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 		for (var row = height - 5; row >= 5; --row) {
 			//set each cell 60 or 10 depend on _spawn_chance
 			//this is first generation of the map
-			map[col][row]= random(1) <= _spawn_chance ? 60 : 10;
+			map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
 			//show_debug_message(map[col][row])
+		}
+	}
+	
+	
+	for (var col = special_x - 5; col < special_x + 5; ++col) {
+		for (var row = special_y - 5; row < special_y + 5; ++row) {
+			map[col][row] = 70;
 		}
 	}
 	
@@ -26,12 +34,12 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 	static iterate = function(_num = 1) {
 		repeat(_num){
 			//create next generation map
-			show_debug_message("one loop")
+			//show_debug_message("one loop")
 			var _new_map = array_create(width,0)
 			for (var i = 0; i < width;i += 1){
 				_new_map[i] = array_create(height,0)	
 			}
-			show_debug_message("1")
+			//show_debug_message("1")
 			//pcg!!
 			for(var col = 0; col < width; col+=1){
 				for (var row = 0; row < height; row += 1){
@@ -64,16 +72,23 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 					//show_debug_message(map[col][row])
 					//apply rules to each cell
 					//can be tested and changed later
-					if _count < 40{
+					if _count < 40 {
 						_new_map[col][row] = _self + (random(_count - _self))
-					}else if (_self > _count){
-						_new_map[col][row] = _self + (random_range(-10,10))
-					}else {
+					} else if (_self > _count) {
+						_new_map[col][row] = _self + (random_range(-10, 10))
+					} else {
 						_new_map[col][row] = _self + (random(_count/5))	
 					}
 					
 				}
 			}
+			
+			for (var col = special_x - 10; col < special_x + 10; ++col) {
+				for (var row = special_y - 10; row < special_y + 10; ++row) {
+					if _new_map[col][row] >= 110 _new_map[col][row] = 110
+				}
+			}
+			
 			
 			//show_debug_message("2")
 			//replace the old map with the new generation
