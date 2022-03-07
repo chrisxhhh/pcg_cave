@@ -19,7 +19,7 @@ spawn_square = function(){
 
 randomize()
 my_map = new cellular_automata(60,60,0.4)
-//my_map.iterate(1)
+my_map.iterate(40)
 show_debug_message("finish map part")
 show_debug_message(my_map.map[0])
 spawn_square()

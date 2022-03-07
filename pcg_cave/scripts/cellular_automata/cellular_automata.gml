@@ -17,7 +17,7 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 			//set each cell 60 or 10 depend on _spawn_chance
 			//this is first generation of the map
 			map[col][row]= random(1) <= _spawn_chance? 60 : 10
-			show_debug_message(map[col][row])
+			//show_debug_message(map[col][row])
 		}
 	}
 	
@@ -26,7 +26,7 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 	static iterate = function(_num){
 		repeat(_num){
 			//create next generation map
-			show_debug_message("generating")
+			show_debug_message("one loop")
 			var _new_map = array_create(width,0)
 			for (var i = 0; i < width;i += 1){
 				_new_map[i] = array_create(height,0)	
@@ -34,8 +34,9 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 			show_debug_message("1")
 			//pcg!!
 			for(var col = 0; col < width; col+=1){
-				for (var row = 0; col < height; col += 1){
-					show_debug_message(string(col)+" , "+string(row))
+				for (var row = 0; row < height; row += 1){
+					//show_debug_message(string(col)+" , "+string(row))
+					//show_debug_message(map[col][row])
 					//check neighbors
 					var _col_dif, _row_dif, _count
 					_count = 0
@@ -56,11 +57,11 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 							}
 						}
 					}
-					show_debug_message("finish neighbor")
+					//show_debug_message("finish neighbor")
 					//avg value of neighbors
 					_count /= 8
 					var _self = map[col][row]
-					show_debug_message(map[col][row])
+					//show_debug_message(map[col][row])
 					//apply rules to each cell
 					//can be tested and changed later
 					if _count < 40{
@@ -74,7 +75,7 @@ function cellular_automata(_width, _height, _spawn_chance) constructor{
 				}
 			}
 			
-			show_debug_message("2")
+			//show_debug_message("2")
 			//replace the old map with the new generation
 			map = _new_map
 			
