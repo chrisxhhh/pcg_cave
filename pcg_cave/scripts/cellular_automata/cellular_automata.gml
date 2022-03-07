@@ -1,29 +1,29 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function cellular_automata(_width, _height, _spawn_chance) constructor{
-	width = _width
-	height = _height
+	width	= _width;
+	height	= _height;
 	
 	
 	//create initial grid in a nested array with initial value 0
-	map = array_create(width,0)
-	for (var i = 0; i < width;i += 1){
-		map[i] = array_create(height,0)	
+	map = array_create(width, 0);
+	for (var i = 0; i < width; ++i) {
+		map[i] = array_create(height, 0)	
 	}
 	
 	
-	for (var col = width-1; col >= 0; col -= 1){
-		for (var row=height-1; row>= 0 ; row -=1){
+	for (var col = width - 5; col >= 5; --col) {
+		for (var row = height - 5; row >= 5; --row) {
 			//set each cell 60 or 10 depend on _spawn_chance
 			//this is first generation of the map
-			map[col][row]= random(1) <= _spawn_chance? 60 : 10
+			map[col][row]= random(1) <= _spawn_chance ? 60 : 10;
 			//show_debug_message(map[col][row])
 		}
 	}
 	
 	//where PCG actually happen
 	//this function will repeat _num times
-	static iterate = function(_num){
+	static iterate = function(_num = 1) {
 		repeat(_num){
 			//create next generation map
 			show_debug_message("one loop")
