@@ -16,3 +16,12 @@ if (keyboard_check(vk_space) && ite_rdy) {
 //if (keyboard_check(vk_enter)) {
 //	instance_destroy(obj_square)
 //}
+
+
+if (keyboard_check_pressed(ord("1"))) {
+	spawn_square(my_map);
+} else if (keyboard_check_pressed(ord("2"))) {
+	spawn_square(map2);
+} else if (keyboard_check_pressed(ord("3"))) {
+	spawn_square(map3);
+}

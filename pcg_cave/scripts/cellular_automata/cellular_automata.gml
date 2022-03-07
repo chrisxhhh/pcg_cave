@@ -1,6 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function cellular_automata(_width, _height, _spawn_chance) constructor {
+function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constructor {
 	width		= _width;
 	height		= _height;
 	special_x	= irandom_range(43, 83);
@@ -12,22 +12,64 @@ function cellular_automata(_width, _height, _spawn_chance) constructor {
 		map[i] = array_create(height, 0)	
 	}
 	
+	initial = array_create(width, 0);
+	for (var i = 0; i < width; ++i) {
+		initial[i] = array_create(height, 0)	
+	}
 	
-	for (var col = width - 5; col >= 5; --col) {
-		for (var row = height - 5; row >= 5; --row) {
-			//set each cell 60 or 10 depend on _spawn_chance
-			//this is first generation of the map
-			map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
-			//show_debug_message(map[col][row])
+	//First room generation
+	if (_prev = noone) {
+		for (var col = width - 5; col >= 5; --col) {
+			for (var row = height - 5; row >= 5; --row) {
+				//set each cell 60 or 10 depend on _spawn_chance
+				//this is first generation of the map
+				map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
+				initial[col][row] = map[col][row];
+				//show_debug_message(map[col][row])
+			}
 		}
+	
+	
+		for (var col = special_x - 5; col < special_x + 5; ++col) {
+			for (var row = special_y - 5; row < special_y + 5; ++row) {
+				map[col][row] = 70;
+			}
+		}
+	}
+	//Later room generation
+	else {
+		
+		for (var col = 37; col >= 5; --col) {
+			map[col] = _prev.initial[width - col];
+			initial[col] = map[col];
+		}
+		
+		
+		for (var col = width - 5; col >= 38; --col) {
+			for (var row = height - 5; row >= 5; --row) {
+				//set each cell 60 or 10 depend on _spawn_chance
+				//this is first generation of the map
+				map[col][row] = random(1) <= _spawn_chance ? 60 : 10;
+				initial[col][row] = map[col][row];
+				//show_debug_message(map[col][row])
+			}
+		}
+	
+	
+		for (var col = special_x - 5; col < special_x + 5; ++col) {
+			for (var row = special_y - 5; row < special_y + 5; ++row) {
+				map[col][row] = 70;
+			}
+		}
+		
 	}
 	
 	
-	for (var col = special_x - 5; col < special_x + 5; ++col) {
-		for (var row = special_y - 5; row < special_y + 5; ++row) {
-			map[col][row] = 70;
-		}
-	}
+	
+	
+	
+	
+	
 	
 	//where PCG actually happen
 	//this function will repeat _num times
