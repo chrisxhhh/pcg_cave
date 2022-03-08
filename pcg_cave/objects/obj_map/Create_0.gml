@@ -33,8 +33,8 @@ my_map = new cellular_automata(128, 128, 0.50);
 my_map.iterate(30);
 spawn_square(my_map, true);
 
-//map2 = new cellular_automata(128, 128, 0.50, my_map);
-//map2.iterate(30);
+map2 = new cellular_automata(128, 128, 0.50, my_map);
+map2.iterate(30);
 
-//map3 = new cellular_automata(128, 128, 0.50, map2);
-//map3.iterate(30);
+map3 = new cellular_automata(128, 128, 0.50, map2);
+map3.iterate(30);
