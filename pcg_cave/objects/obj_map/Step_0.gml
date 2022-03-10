@@ -18,10 +18,17 @@ if (keyboard_check(vk_space) && ite_rdy) {
 //}
 
 
-if (keyboard_check_pressed(ord("1"))) {
-	spawn_square(my_map);
-} else if (keyboard_check_pressed(ord("2"))) {
-	spawn_square(map2);
-} else if (keyboard_check_pressed(ord("3"))) {
-	spawn_square(map3);
+
+if (keyboard_check_pressed(vk_down)) {
+	++current_level;
+	if (all_maps[current_level] == noone) {
+		all_maps[current_level] = new cellular_automata(128, 128, 0.50, all_maps[current_level - 1]);
+		all_maps[current_level].iterate(30);
+	}
+	spawn_square(all_maps[current_level], false);
+} else if (keyboard_check_pressed(vk_up)) {
+	if (current_level > 0) {
+		--current_level;
+		spawn_square(all_maps[current_level], current_level == 0 ? true : false);
+	}
 }

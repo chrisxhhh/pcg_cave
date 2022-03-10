@@ -1,8 +1,4 @@
-/// @description Insert description here
-// You can write your code in this editor
 
-ite = 0;
-ite_rdy = true;
 
 spawn_square = function(_map, _ground = false) {
 	instance_destroy(obj_square)
@@ -21,20 +17,18 @@ spawn_square = function(_map, _ground = false) {
 						set_color(_map.map[col][row]);
 				} else 
 					set_color(_map.map[col][row]);
-				r = row;
-				c = col;
 			}
 		}
 	}
 }
 
+ite				= 0;
+ite_rdy			= true;
+num_iterations	= 30;
+current_level	= 0;
+all_maps		= array_create(20, noone);
+
 randomize();
-my_map = new cellular_automata(128, 128, 0.50);
-my_map.iterate(30);
-spawn_square(my_map, true);
-
-map2 = new cellular_automata(128, 128, 0.50, my_map);
-map2.iterate(30);
-
-map3 = new cellular_automata(128, 128, 0.50, map2);
-map3.iterate(30);
+all_maps[0] = new cellular_automata(128, 128, 0.50, all_maps[0]);
+all_maps[0].iterate(num_iterations);
+spawn_square(all_maps[0], true);
