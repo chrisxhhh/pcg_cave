@@ -23,4 +23,8 @@ set_color = function(_val, _empty = 65, _solid = 115) {
 	} else {
 		image_blend = make_color_rgb(_func2, _func2, _func2);
 	}
+	
+	if (_val < 93 && _val > 87) {
+		image_blend = c_blue;
+	}
 }

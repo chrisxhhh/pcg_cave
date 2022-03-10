@@ -19,6 +19,11 @@ function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constr
 		initial[i] = array_create(height, 0);
 	}
 	
+	final = array_create(98, 0);
+	for (var i = 0; i < 98; ++i) {
+		initial[i] = array_create(98, 0);
+	}
+	
 	//First room generation
 	if (_prev == noone) {
 		for (var col = width - 5; col >= 5; --col) {
@@ -56,6 +61,50 @@ function cellular_automata(_width, _height, _spawn_chance, _prev = noone) constr
 			}
 		}
 		
+	}
+	
+	static get_final_map = function(_ground = false) {
+		for (var col = 0; col < 98; col++) {
+			for (var row = 0; row < 98; row++) {
+				if (_ground) {
+					if (row <= 78) {
+						final[col][row] = 1;	
+					} else if (row > 78 && row < 88) {
+						if (map[col + 15][row + 15] <= 105 && map[col + 15][row + 15] > 75) {
+							//empty
+							final[col][row] = 1;
+						} else {
+							//solid
+							final[col][row] = 0;
+						}
+					} else {
+						if (map[col + 15][row + 15] <= 115 && map[col + 15][row + 15] > 65) {
+							//empty
+							final[col][row] = 1;
+						} else {
+							//solid
+							final[col][row] = 0;
+						}
+					}
+				
+				} else {
+					if (map[col + 15][row + 15] < 93 && map[col + 15][row + 15] > 87) {
+						// val between 87 and 93, 20% torch, 80% empty
+						final[col][row] = random(1) <= 0.2 ? 2 : 1;
+					} else if (map[col + 15][row + 15] <= 115 && map[col + 15][row + 15] > 65) {
+						//empty
+						final[col][row] = 1;
+					} else {
+						//solid
+						final[col][row] = 0;
+					}
+				
+				}
+				if (col == 0 || col == 97) {
+					final[col][row] = 0;
+				}
+			}
+		}
 	}
 	
 	
